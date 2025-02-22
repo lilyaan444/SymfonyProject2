@@ -1,65 +1,139 @@
-# Symfony 7.1 Boilerplate 
+# 🏢 Backoffice Symfony - Projet de Gestion de Clients et Produits - Lilyan MULLER
 
-Attention : Il vous faut PHP 8.2 pour faire fonctionner ce projet si vous avez PHP 8.1 utiliser la branche symfony64 du repository.
+> **Note :** Ce projet est un backoffice destiné à la gestion des utilisateurs, des produits et des clients dans une petite entreprise. Il a été développé dans le cadre d'un projet de ma troisième année de BUT Informatique.
 
-## Initialisation de votre IDE
+---
 
-### PHPStorm
+## 📹 Présentation Vidéo
 
-1. Ouvrir le projet dans PHPStorm
-2. Installer les extensions Twig et Symfony
-    - Aller dans File > Settings > Plugins
-    - Installer les extensions (Twig, EA Inspection, PHP Annotations, .env files support)
+[Voir la présentation vidéo](https://github.com/user-attachments/assets/5b444e83-fbba-44f8-8bc4-3d499066af15)
 
-### Visual Studio Code
+---
 
-1. Ouvrir le projet dans Visual Studio Code
-2. Installer les extensions pour PHP, Twig et Symfony
-    - Aller dans l'onglet Extensions
-    - Installer les extensions (whatwedo.twig, TheNouillet.symfony-vscode, DEVSENSE.phptools-vscode, 
-    bmewburn.vscode-intelephense-client, zobo.php-intellisense)
+## 📝 Table des matières
+1. [Aperçu du projet](#-aperçu-du-projet)
+2. [Fonctionnalités](#-fonctionnalités)
+3. [Installation](#-installation)
+4. [Utilisation](#-utilisation)
+5. [Technologies utilisées](#-technologies-utilisées)
+6. [Tests](#-tests)
 
-## Installation avec IDX
+---
 
-1. Fork le projet sur votre compte GitHub
-2. Importer le projet depuis votre GitHub sur IDX
-3. Le projet est déjà lancé il suffit d'aller dans l'onglet du terminal avec `start` puis cliquer sur le lien `localhost`
-4. Lancer la commande `composer i` pour installer les dépendances du projet.
-5. Pour accéder à la base de données `mysql -u root`
-6. Dans un fichier à la racine `.env.local` mettre cette variable d'environnement 
-`DATABASE_URL="mysql://root:@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"`
+## 🌟 Aperçu du Projet
 
-## Installation en local
+Ce projet est un backoffice développé avec Symfony permettant de gérer les utilisateurs, les produits et les clients d'une entreprise. Il inclut des fonctionnalités comme l'importation de produits depuis un fichier CSV, la gestion des utilisateurs avec différents rôles et la possibilité d'ajouter et modifier des informations clients. Il utilise également un système de sécurité pour restreindre l'accès à certaines sections selon les rôles des utilisateurs.
 
-1. Cloner le projet
-2. Installer PHP >= 8.2 et Composer (Sur votre machine utiliser XAMPP pour windows, MAMP pour mac ou LAMP pour linux bien prendre la version PHP 8.2)
-3. Installer les dépendances du projet avec la commande `composer install`
-4. Faire un virtual host sur votre serveur local (XAMPP par exemple pour Windows) 
- - Ouvrir le fichier `httpd-vhosts.conf` dans le répertoire `C:\xampp\apache\conf\extra`
-    - Ajouter le code suivant à la fin du fichier
+---
+
+## ✨ Fonctionnalités
+
+- **Gestion des utilisateurs** : 
+  - Lister, ajouter, modifier (sauf mot de passe) et supprimer des utilisateurs (seulement pour les administrateurs).
+  - Implémentation de rôles (`ROLE_ADMIN`, `ROLE_USER`, `ROLE_MANAGER`) pour restreindre l'accès.
+- **Gestion des produits** : 
+  - Ajouter, modifier et supprimer des produits (seulement pour les administrateurs).
+  - Tri des produits par prix décroissant.
+  - Exportation des produits en format CSV.
+  - Importation de produits depuis un fichier CSV.
+- **Gestion des clients** : 
+  - Ajouter, modifier et lister des clients (gestionnaires et administrateurs uniquement).
+  - Validation des champs clients (email, prénom, nom) et vérification de l'unicité des emails.
+- **Sécurité** : 
+  - Système de connexion sécurisé avec authentification.
+  - Restriction d'accès aux différentes sections selon le rôle de l'utilisateur.
+
+---
+
+## 🚀 Installation
+
+### Installation avec IDX
+
+1. **Forker le projet**  
+   Forkez-le dépot actuel sur votre compte GitHub.
+
+2. **Importer le projet sur IDX**  
+   Connectez-vous à IDX et importez votre fork du projet depuis votre dépôt GitHub.
+   
+4. **Changer de branch**  
+   Dans le terminal de votre projet :
+   - git checkout -b MinecraftShop origin/MinecraftShop
+
+5. **Démarrer le projet**  
+   Une fois le projet importé et le checkout effectuer, il devrait être automatiquement lancé sur IDX. Accédez à l'onglet "Terminal", cliquez sur `start`, puis ouvrez le lien localhost pour visualiser l'application.
+
+6. **Installer les dépendances**  
+   Dans le terminal de votre projet :
+   - Lancez la commande : `composer install` pour installer les dépendances PHP.
+   - Puis la commande : `npm install` et `encore dev`
+
+7. **Configurer la base de données**  
+   - Connectez-vous à MySQL en utilisant : `mysql -u root`.  
+   - Créez la base de données :  
+     ```sql
+     CREATE DATABASE MC;
+     ```
+   - Exécutez les commandes suivantes pour configurer les tables et charger les données de test :  
+     ```bash
+     php bin/console doctrine:schema:update --force
+     php bin/console doctrine:fixtures:load
+     ```
+
+8. **Configurer les variables d'environnement**  
+    Créez un fichier `.env.local` à la racine du projet et ajoutez la ligne suivante pour configurer         l'accès à la base de données :  
     ```
-    <VirtualHost *>
-        DocumentRoot "C:\Users\votre_username\Documents\iut\symfony_base\public"
-        ServerName symfony_base.local
-        
-        <Directory "C:\Users\votre_username\Documents\iut\symfony_base\public">
-            AllowOverride All
-            Require all granted
-        </Directory>
-    </VirtualHost>
+    DATABASE_URL="mysql://root:@127.0.0.1:3306/MC?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
     ```
-    - Ajouter l'adresse IP de votre machine dans le fichier `C:\Windows\System32\drivers\etc\hosts`
-    ```
-    127.0.0.1 symfony_base.local
-    ```
-    - Redémarrer Apache
-    - Accéder à l'adresse `symfony_base.local` dans votre navigateur
 
-4. Créer un fichier `.env.local` à la racine du projet et ajouter la configuration de la base de données
-5. Créer la base de données avec la commande `php bin/console doctrine:database:create`
+9. **Compiler les assets**  
+   Si vous utilisez Tailwind CSS, compilez les assets avec :
+   ```bash
+   php bin/console tailwind:build
+   ```
 
-## Utilisation
+10. **Créer la base de données**  
+   Créez la base de données et appliquez les migrations :
+   ```bash
+   php bin/console doctrine:schema:update --force
+   ```
 
-- N'hésitez pas à consulter la documentation de Symfony pour plus d'informations sur l'utilisation du framework : https://symfony.com/doc/current/index.html
+11. **Charger des données de test**  
+   Ajoutez des données de test dans la base avec :
+   ```bash
+   php bin/console doctrine:fixtures:load
+   ```
 
-- Notez comment fonctionne votre projet dans le fichier README.md et mettez à jour ce fichier au fur et à mesure de l'avancement de votre projet pour aider les autres développeurs à comprendre comment fonctionne votre projet.
+   Vous pouvez maintenant accéder à l'application via `http://localhost:8000`.
+
+---
+
+## 📖 Utilisation
+
+1. **Connexion** : Accédez à l'interface de connexion pour vous authentifier. Les utilisateurs sont définis dans les fixtures du projet.
+2. **Gestion des utilisateurs** : L'administrateur peut gérer les utilisateurs (ajouter, modifier, supprimer) via l'onglet "Utilisateurs".
+3. **Gestion des produits** : Les administrateurs peuvent ajouter, modifier, supprimer des produits et exporter la liste en CSV via l'onglet "Produits".
+4. **Gestion des clients** : Les gestionnaires et administrateurs peuvent ajouter et modifier des clients via l'onglet "Clients".
+
+---
+
+## 💻 Technologies utilisées
+
+- **Backend** : Symfony 5, Doctrine ORM
+- **Frontend** : Twig, Tailwind CSS
+- **Base de données** : MariaDB
+- **Sécurité** : Symfony Security (authentification et autorisation)
+- **Import/Export CSV** : PHP, Symfony Console
+
+---
+
+## 🧪 Tests
+
+Des tests unitaires ont été écrits pour les services critiques du projet, y compris :
+- Test de création d'un utilisateur, produit ou client avec un mock ou stub.
+- Test des fonctionnalités de gestion des produits et clients.
+
+Pour exécuter les tests, utilisez la commande suivante :
+```bash
+php bin/console doctrine:fixtures:load
+php bin/console phpunit
+```
