@@ -114,8 +114,8 @@ Ce projet est un backoffice développé avec Symfony permettant de gérer les ut
 
 1. **Connexion** : Accédez à l'interface de connexion pour vous authentifier. Les utilisateurs sont définis dans les fixtures du projet.
 2. **Gestion des utilisateurs** : L'administrateur peut gérer les utilisateurs (ajouter, modifier, supprimer) via l'onglet "Utilisateurs".
-3. **Gestion des produits** : Les administrateurs peuvent ajouter, modifier, supprimer des produits et exporter la liste en CSV via l'onglet "Produits".
-4. **Gestion des clients** : Les gestionnaires et administrateurs peuvent ajouter et modifier des clients via l'onglet "Clients".
+3. **Gestion des produits** : Les administrateurs peuvent ajouter, modifier, supprimer des produits et importer la liste en CSV via la commande "php bin/console app:import-products public/products.csv".
+4. **Gestion des clients** : Les gestionnaires et administrateurs peuvent ajouter et modifier des clients via l'onglet "Clients" ou la commande "php bin/console app:create-client".
 
 ---
 
