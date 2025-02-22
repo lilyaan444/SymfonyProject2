@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Clients{% endblock %}
+
+{% block body %}
+    <div class="max-w-7xl mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h1 class="text-xl font-bold">Gestion des Clients</h1>
+                {% if is_granted('CLIENT_EDIT') %}
+                    <a href="{{ path('app_clients_new') }}"
+                       class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium">
+                        Ajouter un client
+                    </a>
+                {% endif %}
+            </div>
+
+            <div class="p-4">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Nom</th>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Email</th>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Téléphone</th>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Créé le</th>
+                            {% if is_granted('CLIENT_EDIT') %}
+                                <th class="p-3 text-left text-sm font-medium text-gray-600">Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                            <tr class="border-t border-gray-200">
+                                <td class="p-3">{{ client.firstname }} {{ client.lastname }}</td>
+                                <td class="p-3">{{ client.email }}</td>
+                                <td class="p-3">{{ client.phoneNumber }}</td>
+                                <td class="p-3">{{ client.createdAt|date('d/m/Y H:i') }}</td>
+                                {% if is_granted('CLIENT_EDIT') %}
+                                    <td class="p-3">
+                                        <div class="flex space-x-2">
+                                            <a href="{{ path('app_clients_edit', {'id': client.id}) }}"
+                                               class="px-3 py-1.5 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-md text-sm font-medium">
+                                                Modifier
+                                            </a>
+                                            {% if is_granted('CLIENT_DELETE') %}
+                                                <form method="post" action="{{ path('app_clients_delete', {'id': client.id}) }}"
+                                                      class="inline"
+                                                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+                                                    <button type="submit"
+                                                            class="px-3 py-1.5 bg-red-100 text-red-700 hover:bg-red-200 rounded-md text-sm font-medium">
+                                                        Supprimer
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="p-4 text-center text-gray-500">
+                                    Aucun client trouvé.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

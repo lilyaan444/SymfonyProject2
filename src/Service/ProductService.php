@@ -13,22 +13,25 @@ class ProductService
     public function exportToCsv(): string
     {
         $products = $this->productRepository->findAllSortedByPrice();
-        $csvContent = "name,description,price\n";
 
+        $handle = fopen('php://temp', 'r+');
+
+        // En-têtes CSV
+        fputcsv($handle, ['Nom', 'Description', 'Prix']);
+
+        // Données des produits
         foreach ($products as $product) {
-            $csvContent .= sprintf(
-                "%s,%s,%.2f\n",
-                $this->escapeCsv($product->getName()),
-                $this->escapeCsv($product->getDescription()),
+            fputcsv($handle, [
+                $product->getName(),
+                $product->getDescription(),
                 $product->getPrice()
-            );
+            ]);
         }
 
-        return $csvContent;
-    }
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
 
-    private function escapeCsv(string $string): string
-    {
-        return '"' . str_replace('"', '""', $string) . '"';
+        return $content;
     }
 }

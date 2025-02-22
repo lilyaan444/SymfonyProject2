@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Nouvel Utilisateur{% endblock %}
 
 {% block body %}
     <div class="max-w-3xl mx-auto">
         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
             <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Create New User</h2>
+                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Créer un Nouvel Utilisateur</h2>
                     <a href="{{ path('app_users_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Back to List
+                        Retour à la liste
                     </a>
                 </div>
             </div>
@@ -27,16 +27,19 @@
                             {{ form_row(form.email) }}
                         </div>
                         <div class="sm:col-span-2">
+                            {{ form_row(form.plainPassword) }}
+                        </div>
+                        <div class="sm:col-span-2">
                             {{ form_row(form.roles) }}
                         </div>
                     </div>
 
                     <div class="flex justify-end space-x-3 pt-5">
                         <a href="{{ path('app_users_index') }}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Cancel
+                            Annuler
                         </a>
                         <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Create User
+                            Créer l'utilisateur
                         </button>
                     </div>
                 {{ form_end(form) }}

@@ -36,7 +36,6 @@ class UserController extends AbstractController
     #[Route('/new', name: 'app_users_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Ensure only admins can create users
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $user = new UserEntity();
@@ -44,14 +43,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Set a default password for new users
-            $hashedPassword = $passwordHasher->hashPassword($user, 'changeme123');
+            $plainPassword = $form->get('plainPassword')->getData();
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'User created successfully.');
+            $this->addFlash('success', 'Utilisateur créé avec succès');
             return $this->redirectToRoute('app_users_index');
         }
 
@@ -71,7 +70,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'User updated successfully.');
+            $this->addFlash('success', 'Utilisateur modifié avec succès');
             return $this->redirectToRoute('app_users_index');
         }
 
@@ -89,7 +88,7 @@ class UserController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
-            $this->addFlash('success', 'User deleted successfully.');
+            $this->addFlash('success', 'Utilisateur supprimé avec succès');
         }
 
         return $this->redirectToRoute('app_users_index');

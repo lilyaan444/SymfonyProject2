@@ -9,11 +9,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:import-products',
-    description: 'Import products from CSV file'
+    description: 'Importer des produits depuis un fichier CSV',
 )]
 class ImportProductsCommand extends Command
 {
@@ -24,42 +23,35 @@ class ImportProductsCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('file', InputArgument::REQUIRED, 'CSV file path');
+        $this->addArgument('filename', InputArgument::REQUIRED, 'Fichier CSV à importer');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $filePath = $input->getArgument('file');
+        $filename = $input->getArgument('filename');
+        $filepath = 'public/' . $filename;
 
-        if (!file_exists($filePath)) {
-            $io->error('File not found: ' . $filePath);
+        if (!file_exists($filepath)) {
+            $output->writeln('<error>Fichier non trouvé</error>');
             return Command::FAILURE;
         }
 
-        if (($handle = fopen($filePath, "r")) !== false) {
-            // Skip header row
-            fgetcsv($handle);
-            
-            $count = 0;
-            while (($data = fgetcsv($handle)) !== false) {
-                $product = new ProductEntity();
-                $product->setName($data[0]);
-                $product->setDescription($data[1]);
-                $product->setPrice((float)$data[2]);
+        $handle = fopen($filepath, 'r');
+        $headers = fgetcsv($handle); // Skip headers
 
-                $this->entityManager->persist($product);
-                $count++;
-            }
-            
-            $this->entityManager->flush();
-            fclose($handle);
+        while (($data = fgetcsv($handle)) !== false) {
+            $product = new ProductEntity();
+            $product->setName($data[0]);
+            $product->setDescription($data[1]);
+            $product->setPrice(floatval($data[2]));
 
-            $io->success(sprintf('Successfully imported %d products', $count));
-            return Command::SUCCESS;
+            $this->entityManager->persist($product);
         }
 
-        $io->error('Could not open file');
-        return Command::FAILURE;
+        $this->entityManager->flush();
+        fclose($handle);
+
+        $output->writeln('<info>Produits importés avec succès</info>');
+        return Command::SUCCESS;
     }
 }

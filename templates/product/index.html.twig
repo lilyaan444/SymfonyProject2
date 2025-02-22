@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products Management{% endblock %}
+{% block title %}Gestion des Produits{% endblock %}
 
 {% block body %}
     <div class="max-w-7xl mx-auto p-4">
         <div class="bg-white rounded-lg shadow-sm">
             <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-                <h1 class="text-xl font-bold">Products Management</h1>
+                <h1 class="text-xl font-bold">Gestion des Produits</h1>
                 <div class="space-x-2">
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('app_products_export') }}"
-                           class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-medium">
-                            Export CSV
+                           class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium shadow-sm">
+                            Exporter CSV
                         </a>
                         <a href="{{ path('app_products_new') }}"
-                           class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium">
-                            Add Product
+                           class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium shadow-sm">
+                            Ajouter un produit
                         </a>
                     {% endif %}
                 </div>
@@ -25,9 +25,9 @@
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="p-3 text-left text-sm font-medium text-gray-600">Name</th>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Nom</th>
                             <th class="p-3 text-left text-sm font-medium text-gray-600">Description</th>
-                            <th class="p-3 text-left text-sm font-medium text-gray-600">Price</th>
+                            <th class="p-3 text-left text-sm font-medium text-gray-600">Prix</th>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <th class="p-3 text-left text-sm font-medium text-gray-600">Actions</th>
                             {% endif %}
@@ -38,21 +38,21 @@
                             <tr class="border-t border-gray-200">
                                 <td class="p-3">{{ product.name }}</td>
                                 <td class="p-3">{{ product.description }}</td>
-                                <td class="p-3">{{ product.price|format_currency('EUR') }}</td>
+                                <td class="p-3">{{ product.price }} €</td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <td class="p-3">
                                         <div class="flex space-x-2">
                                             <a href="{{ path('app_products_edit', {'id': product.id}) }}"
                                                class="px-3 py-1.5 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-md text-sm font-medium">
-                                                Edit
+                                                Modifier
                                             </a>
                                             <form method="post" action="{{ path('app_products_delete', {'id': product.id}) }}"
                                                   class="inline"
-                                                  onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                                                 <button type="submit"
                                                         class="px-3 py-1.5 bg-red-100 text-red-700 hover:bg-red-200 rounded-md text-sm font-medium">
-                                                    Delete
+                                                    Supprimer
                                                 </button>
                                             </form>
                                         </div>
@@ -62,7 +62,7 @@
                         {% else %}
                             <tr>
                                 <td colspan="4" class="p-4 text-center text-gray-500">
-                                    No products found.
+                                    Aucun produit trouvé.
                                 </td>
                             </tr>
                         {% endfor %}

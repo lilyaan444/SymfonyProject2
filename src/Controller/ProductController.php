@@ -35,14 +35,18 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($product);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_products_index');
+            try {
+                $entityManager->persist($product);
+                $entityManager->flush();
+                $this->addFlash('success', 'Produit créé avec succès');
+                return $this->redirectToRoute('app_products_index');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erreur lors de la sauvegarde du produit : ' . $e->getMessage());
+            }
         }
 
         return $this->render('product/new.html.twig', [
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -56,6 +60,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Produit modifié avec succès');
             return $this->redirectToRoute('app_products_index');
         }
 
@@ -73,6 +78,7 @@ class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
+            $this->addFlash('success', 'Produit supprimé avec succès');
         }
 
         return $this->redirectToRoute('app_products_index');

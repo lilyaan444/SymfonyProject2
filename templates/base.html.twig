@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Bienvenue!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
         {% endblock %}
@@ -17,15 +17,17 @@
                 <!-- Sidebar -->
                 <div class="w-64 bg-gray-800 text-white">
                     <div class="p-4">
-                        <h1 class="text-xl font-bold">Backoffice</h1>
+                        <h1 class="text-xl font-bold">Administration</h1>
                     </div>
                     <nav class="mt-4">
-                        <a href="{{ path('home') }}" class="block px-4 py-2 hover:bg-gray-700">Dashboard</a>
+                        <a href="{{ path('home') }}" class="block px-4 py-2 hover:bg-gray-700">Tableau de bord</a>
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('app_users_index') }}" class="block px-4 py-2 hover:bg-gray-700">Utilisateurs</a>
                         {% endif %}
                         <a href="{{ path('app_products_index') }}" class="block px-4 py-2 hover:bg-gray-700">Produits</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-700">Clients</a>
+                        {% if is_granted('CLIENT_VIEW') %}
+                            <a href="{{ path('app_clients_index') }}" class="block px-4 py-2 hover:bg-gray-700">Clients</a>
+                        {% endif %}
                         <a href="{{ path('app_logout') }}" class="block px-4 py-2 hover:bg-gray-700 mt-8 text-red-400">Déconnexion</a>
                     </nav>
                 </div>
@@ -35,7 +37,9 @@
                 </div>
             </div>
         {% else %}
-            {% block login %}{% endblock %}
+            <div class="min-h-screen flex items-center justify-center">
+                {% block login %}{% endblock %}
+            </div>
         {% endif %}
     </body>
 </html>

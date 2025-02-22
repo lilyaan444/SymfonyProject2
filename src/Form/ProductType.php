@@ -16,7 +16,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'Nom',
                 'attr' => ['class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm']
             ])
             ->add('description', TextareaType::class, [
@@ -24,7 +24,7 @@ class ProductType extends AbstractType
                 'attr' => ['class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm', 'rows' => 3]
             ])
             ->add('price', MoneyType::class, [
-                'label' => 'Price',
+                'label' => 'Prix',
                 'currency' => 'EUR',
                 'attr' => ['class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm']
             ])
