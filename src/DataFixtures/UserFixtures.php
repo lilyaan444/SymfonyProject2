@@ -19,11 +19,15 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $usersData = [
-            ['email' => 'nasri@gmail.com', 'firstname' => 'Samir', 'lastname' => 'Nasri', 'roles' => ['ROLE_USER'], 'password' => 'nasri'],
-            ['email' => 'payet@gmail.com', 'firstname' => 'Dimitri', 'lastname' => 'Payet', 'roles' => ['ROLE_USER'], 'password' => 'payet'],
-            ['email' => 'benatia@gmail.com', 'firstname' => 'Medhi', 'lastname' => 'Benatia', 'roles' => ['ROLE_ADMIN'], 'password' => 'benatia'],
-            ['email' => 'longoria@gmail.com', 'firstname' => 'Pablo', 'lastname' => 'Longoria', 'roles' => ['ROLE_MANAGER'], 'password' => 'longoria'],
+            ['email' => 'alice.dupont@example.com', 'firstname' => 'Alice', 'lastname' => 'Dupont', 'roles' => ['ROLE_USER'], 'password' => 'alicepass'],
+            ['email' => 'bob.martin@example.com', 'firstname' => 'Bob', 'lastname' => 'Martin', 'roles' => ['ROLE_USER'], 'password' => 'bobpass'],
+            ['email' => 'charlie.leclerc@example.com', 'firstname' => 'Charlie', 'lastname' => 'Leclerc', 'roles' => ['ROLE_ADMIN'], 'password' => 'charliepass'],
+            ['email' => 'david.bernard@example.com', 'firstname' => 'David', 'lastname' => 'Bernard', 'roles' => ['ROLE_MANAGER'], 'password' => 'davidpass'],
+            ['email' => 'eva.moreau@example.com', 'firstname' => 'Eva', 'lastname' => 'Moreau', 'roles' => ['ROLE_USER'], 'password' => 'evapass'],
+            ['email' => 'frank.dubois@example.com', 'firstname' => 'Frank', 'lastname' => 'Dubois', 'roles' => ['ROLE_USER'], 'password' => 'frankpass'],
+            ['email' => 'gabriel.petit@example.com', 'firstname' => 'Gabriel', 'lastname' => 'Petit', 'roles' => ['ROLE_USER'], 'password' => 'gabrielpass'],
         ];
+
 
         foreach ($usersData as $data) {
             $user = new UserEntity();
