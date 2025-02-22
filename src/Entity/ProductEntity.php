@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductEntityRepository::class)]
 class ProductEntity
@@ -13,13 +14,17 @@ class ProductEntity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?float $price = null;
 
     public function getId(): ?int
@@ -35,7 +40,6 @@ class ProductEntity
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -47,7 +51,6 @@ class ProductEntity
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -59,7 +62,6 @@ class ProductEntity
     public function setPrice(float $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 }

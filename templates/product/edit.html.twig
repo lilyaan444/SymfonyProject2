@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block body %}
+    <div class="max-w-3xl mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h1 class="text-xl font-bold">Edit Product</h1>
+                <a href="{{ path('app_products_index') }}"
+                   class="px-3 py-1.5 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm font-medium">
+                    Back to List
+                </a>
+            </div>
+
+            <div class="p-4">
+                {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                    {{ form_widget(form) }}
+                    <div class="flex justify-end space-x-2 pt-4">
+                        <button type="submit"
+                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium">
+                            Update Product
+                        </button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

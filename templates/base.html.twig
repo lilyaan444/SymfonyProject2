@@ -11,7 +11,31 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-gray-100">
+        {% if app.user %}
+            <div class="flex h-screen">
+                <!-- Sidebar -->
+                <div class="w-64 bg-gray-800 text-white">
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold">Backoffice</h1>
+                    </div>
+                    <nav class="mt-4">
+                        <a href="{{ path('home') }}" class="block px-4 py-2 hover:bg-gray-700">Dashboard</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_users_index') }}" class="block px-4 py-2 hover:bg-gray-700">Utilisateurs</a>
+                        {% endif %}
+                        <a href="{{ path('app_products_index') }}" class="block px-4 py-2 hover:bg-gray-700">Produits</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-700">Clients</a>
+                        <a href="{{ path('app_logout') }}" class="block px-4 py-2 hover:bg-gray-700 mt-8 text-red-400">Déconnexion</a>
+                    </nav>
+                </div>
+                <!-- Main Content -->
+                <div class="flex-1 p-8">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        {% else %}
+            {% block login %}{% endblock %}
+        {% endif %}
     </body>
 </html>
